@@ -54,5 +54,17 @@ function startA() {
     d.getElementsByClassName('itemCost')[i].innerHTML = "$" + myData.food[i].price;
     prices.push(myData.food[i].price);
   }
-  window.alert(prices);
+  
+}
+
+function selectOne() {
+    
+}
+
+function order() {
+
+}
+
+function kOrder() {
+
 }
