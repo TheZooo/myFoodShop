@@ -11,7 +11,7 @@
         <div class="itemBody">
           <p class="itemDesc"></p>
           <span class="itemCost"></span>
-          <input type="number" class="amtOrder"><button class="bttnOrder">Order</button>
+          <input type="number" class="amtOrder"><button class="bttnOrder" onclick="order()" onkeydown="kOrder()" onfocus="selectOne()">Order</button>
         </div>
         
       </div>
@@ -21,7 +21,7 @@
         <div class="itemBody">
           <p class="itemDesc"></p>
           <span class="itemCost"></span>
-          <input type="number" class="amtOrder"><button class="bttnOrder">Order</button>
+            <input type="number" class="amtOrder"><button class="bttnOrder">Order</button>
         </div>
 
       </div>
@@ -30,20 +30,20 @@
         <div class="itemHead">Sashimi Platter</div>
         <div class="itemBody">
           <p class="itemDesc"></p>
-          <span class="itemCost"></span>
-          <input type="number" class="amtOrder"><button class="bttnOrder">Order</button>
+            <span class="itemCost"></span>
+            <input type="number" class="amtOrder"><button class="bttnOrder">Order</button>
         </div>
         
       </div>
     </flexbox>
-    
+
     <flexbox>
       <div class="itemBox" id="itemFor">
         <div class="itemHead">Shark Fin Soup</div>
         <div class="itemBody">
           <p class="itemDesc"></p>
           <span class="itemCost"></span>
-          <input type="number" class="amtOrder"><button class="bttnOrder">Order</button>
+            <input type="number" class="amtOrder"><button class="bttnOrder">Order</button>
         </div>
 
       </div>
@@ -53,7 +53,7 @@
         <div class="itemBody">
           <p class="itemDesc"></p>
           <span class="itemCost"></span>
-          <input type="number" class="amtOrder"><button class="bttnOrder">Order</button>
+            <input type="number" class="amtOrder"><button class="bttnOrder">Order</button>
         </div>
         
       </div>
@@ -63,7 +63,7 @@
         <div class="itemBody">
           <p class="itemDesc"></p>
           <span class="itemCost"></span>
-          <input type="number" class="amtOrder"><button class="bttnOrder">Order</button>
+            <input type="number" class="amtOrder"><button class="bttnOrder">Order</button>
         </div>
         
       </div>
@@ -71,7 +71,16 @@
     
     
     <div id="orderBox">
-      <p>Your current order</p>
+      <span id="headOrder">Your current order</span>
+      <span id="space">: :</span>
+      <span id="taxNow">Tax rate: </span>
+      <div id="inOrderBox">
+        <ul>
+          <li>daso</li>
+          <li>daso</li>
+          <li>daso</li>
+        </ul>
+      </div>
     </div>
   </body>
 </html>
