@@ -1,41 +1,45 @@
 var d = document;
 var myData = {
-  "food":[
-      {
-        "item": "Soft Shell Crab",
-        "price": 4.99,
-        "desc": "A crunchy crab served with a lemon"
-      },
-      {
-        "item": "Lobster",
-        "price": 11.99,
-        "desc": "Throughly boiled lobster, along with our own dipping sauce"
-      },
-      {
-        "item": "Sashimi Platter",
-        "price": 14.99,
-        "desc": "Can have salmon, tuna, ahi, beef, squid, in addition to soy sauce"
-      },
-      {
-        "item": "Shark Fin Soup",
-        "price": 10.99,
-        "desc": "A traditional chinese soup made from simmering shark fins"
-      },
-      {
-        "item": "Calamari",
-        "price": 3.99,
-        "desc": "Fried squid, good for a appetizer meal"
-      },
-      {
-        "item": "Grilled Squid",
-        "price": 3.99,
-        "desc": "Squid grilled, seasoned, and with lemon juices"
-      }
-    ]
+  "food": [{
+      "item": "Soft Shell Crab",
+      "price": 4.99,
+      "desc": "A crunchy crab served with a lemon"
+    },
+    {
+      "item": "Lobster",
+      "price": 11.99,
+      "desc": "Throughly boiled lobster, along with our own dipping sauce"
+    },
+    {
+      "item": "Sashimi Platter",
+      "price": 14.99,
+      "desc": "Can have salmon, tuna, ahi, beef, squid, in addition to soy sauce"
+    },
+    {
+      "item": "Shark Fin Soup",
+      "price": 10.99,
+      "desc": "A traditional chinese soup made from simmering shark fins"
+    },
+    {
+      "item": "Calamari",
+      "price": 3.99,
+      "desc": "Fried squid, good for a appetizer meal"
+    },
+    {
+      "item": "Grilled Squid",
+      "price": 3.99,
+      "desc": "Squid grilled, seasoned, and with lemon juices"
+    }
+  ]
 };
-var amtBox = d.getElementsByClassName('itemBox');
+var boxes = d.getElementsByClassName('itemBox');
+var numberChecker = setInterval(fixNum, 10);
 var i = 0;
-var prices = [];
+var selector = 0;
+var tax = 4.712;
+var ordersCost = [];
+var ordersAmt = [];
+var ordersItem = [];
 
 function startA() {
   /*
@@ -48,23 +52,127 @@ function startA() {
   xmlhttp.open("GET", "sample.json", true);
   xmlhttp.send();
   */
-  
-  for (i; i < amtBox.length; i++) {
+
+  for (i; i < boxes.length; i++) {
+    d.getElementsByClassName('itemHead')[i].innerHTML = myData.food[i].item;
     d.getElementsByClassName('itemDesc')[i].innerHTML = myData.food[i].desc;
     d.getElementsByClassName('itemCost')[i].innerHTML = "$" + myData.food[i].price;
-    prices.push(myData.food[i].price);
+    d.getElementsByClassName('amtOrder')[i].value = 0;
   }
-  
+  d.getElementById('taxNow').innerHTML = "Tax rate: " + tax + "%";
+}
+
+function startB() {
+
 }
 
 function selectOne() {
-    
+  if (selector != 0) {
+    selector = 0;
+  }
+}
+
+function selectTwo() {
+  if (selector != 1) {
+    selector = 1;
+  }
+}
+
+function selectTri() {
+  if (selector != 2) {
+    selector = 2;
+  }
+}
+
+function selectFor() {
+  if (selector != 3) {
+    selector = 3;
+  }
+}
+
+function selectFiv() {
+  if (selector != 4) {
+    selector = 4;
+  }
+}
+
+function selectSix() {
+  if (selector != 5) {
+    selector = 5;
+  }
+}
+
+function fixNum() {
+  var ordrNum = d.getElementsByClassName('amtOrder')[selector].value;
+  if (ordrNum < 0) {
+    d.getElementsByClassName('amtOrder')[selector].value = 0;
+  } else if (ordrNum == "") {
+    d.getElementsByClassName('amtOrder')[selector].value = 0;
+  }
 }
 
 function order() {
-
+  var ordrNum = d.getElementsByClassName('amtOrder')[selector].value;
+  var total = 0;
+  var taxed = 0;
+  var taxedTotal = 0;
+  var li = document.createElement('li');
+  var csh;
+  var ul = document.getElementById('currOrder');
+  if (ordrNum != 0) {
+    total = ordrNum * myData.food[selector].price;
+    taxed = total * (tax / 100);
+    taxedTotal = (total + taxed).toFixed(2);
+    d.getElementById('inOrderBox').style.visibility = "visible";
+    d.getElementById('confirmOrder').style.visibility = "visible";
+    d.getElementById('discardOrder').style.visibility = "visible";
+    ordersCost.push(taxedTotal);
+    ordersAmt.push(ordrNum);
+    ordersItem.push(myData.food[selector].item);
+    if (ordrNum == 1) {
+      csh = document.createTextNode("$" + taxedTotal + " - " + ordrNum + " " + myData.food[selector].item);
+    } else if (ordrNum > 1) {
+      csh = document.createTextNode("$" + taxedTotal + " - " + ordrNum + " " + myData.food[selector].item + "s");
+    }
+    li.appendChild(csh);
+    ul.appendChild(li);
+    d.getElementsByClassName('amtOrder')[selector].value = 0;
+  } else if (ordrNum === 0) {
+    window.alert("Order Something");
+  }
 }
 
-function kOrder() {
+function kOrder(event) {
+  var key = event.keyCode;
+  console.log(key);
+  if (key === 13) {
+    order();
+  }
+}
 
+function confirmed() {
+  /*
+  localStorage.setItem("costs", ordersCost);
+  localStorage.setItem("amts", ordersAmt);
+  localStorage.setItem("items", ordersItem);
+  */
+  location.href = "orderFoodShop.html";
+}
+
+function discarded() {
+  var ii = 0;
+  for (ii; ii < ordersCost.length; ii++) {
+    ordersCost.pop();
+    ordersAmt.pop();
+    ordersItem.pop();
+    ul.removeChild(li);
+    window.alert(ordersCost);
+  }
+  d.getElementById('inOrderBox').style.visibility = "hidden";
+  d.getElementById('confirmOrder').style.visibility = "hidden";
+  d.getElementById('discardOrder').style.visibility = "hidden";
+}
+
+function done() {
+  location.href = "myFoodShop.html";
 }
