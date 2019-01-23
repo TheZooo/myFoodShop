@@ -36,6 +36,7 @@ var boxes = d.getElementsByClassName('itemBox');
 var numberChecker = setInterval(fixNum, 10);
 var i = 0;
 var selector = 0;
+var finalTotal = 0;
 var tax = 4.712;
 var ordersCost = [];
 var ordersAmt = [];
@@ -63,7 +64,13 @@ function startA() {
 }
 
 function startB() {
-
+  var c = localStorage.getItem("costs");
+  var a = localStorage.getItem("amts");
+  var i = localStorage.getItem("items");
+  window.alert(c);
+  window.alert(a);
+  window.alert(i);
+  localStorage.clear();
 }
 
 function selectOne() {
@@ -126,17 +133,20 @@ function order() {
     d.getElementById('inOrderBox').style.visibility = "visible";
     d.getElementById('confirmOrder').style.visibility = "visible";
     d.getElementById('discardOrder').style.visibility = "visible";
+    d.getElementById('lineA').style.display = "block";
     ordersCost.push(taxedTotal);
     ordersAmt.push(ordrNum);
     ordersItem.push(myData.food[selector].item);
     if (ordrNum == 1) {
-      csh = document.createTextNode("$" + taxedTotal + " - " + ordrNum + " " + myData.food[selector].item);
+      csh = document.createTextNode(ordrNum + " " + myData.food[selector].item + " - " + "$" + taxedTotal);
     } else if (ordrNum > 1) {
-      csh = document.createTextNode("$" + taxedTotal + " - " + ordrNum + " " + myData.food[selector].item + "s");
+      csh = document.createTextNode(ordrNum + " " + myData.food[selector].item + "s" + " - " + "$" + taxedTotal);
     }
     li.appendChild(csh);
     ul.appendChild(li);
     d.getElementsByClassName('amtOrder')[selector].value = 0;
+    finalTotal = finalTotal + Number(taxedTotal);
+    d.getElementById('currTotal').innerHTML = "Total: " + "$" + finalTotal.toFixed(2);
   } else if (ordrNum === 0) {
     window.alert("Order Something");
   }
@@ -144,33 +154,37 @@ function order() {
 
 function kOrder(event) {
   var key = event.keyCode;
-  console.log(key);
   if (key === 13) {
     order();
   }
 }
 
 function confirmed() {
-  /*
   localStorage.setItem("costs", ordersCost);
   localStorage.setItem("amts", ordersAmt);
   localStorage.setItem("items", ordersItem);
-  */
   location.href = "orderFoodShop.html";
 }
 
 function discarded() {
   var ii = 0;
-  for (ii; ii < ordersCost.length; ii++) {
+  var ul = d.getElementById('currOrder');
+  var orderLength = ordersCost.length;
+  var cntDown = orderLength - 1;
+  for (ii; ii < orderLength; ii++) {
+    var li = d.getElementsByTagName('li')[cntDown];
+    cntDown = cntDown - 1;
     ordersCost.pop();
     ordersAmt.pop();
     ordersItem.pop();
     ul.removeChild(li);
-    window.alert(ordersCost);
   }
   d.getElementById('inOrderBox').style.visibility = "hidden";
   d.getElementById('confirmOrder').style.visibility = "hidden";
   d.getElementById('discardOrder').style.visibility = "hidden";
+  d.getElementById('lineA').style.display = "none";
+  d.getElementById('currTotal').innerHTML = "";
+  finalTotal = 0;
 }
 
 function done() {
